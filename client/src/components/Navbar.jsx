@@ -43,10 +43,10 @@ export default function Navbar() {
               <NavLink to="/register" onClick={close} className="nav-cta">Sign up</NavLink>
             </>
           )}
-          <NavLink to="/cart" onClick={close} aria-label={`Cart, ${cart.length} items`}>
+          <NavLink to="/cart" onClick={close}>
             Cart <span className="badge">{cart.length}</span>
           </NavLink>
-          <button className="theme-btn" onClick={toggleTheme} aria-label="Switch theme">
+          <button className="theme-btn" onClick={toggleTheme} title="Switch light / dark theme">
             {theme === "light" ? "☾ Dark" : "☀ Light"}
           </button>
         </nav>

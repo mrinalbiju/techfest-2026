@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
 const photos = [
-  { src: "/images/hackathon.png", caption: "HackNight 2025" },
-  { src: "/images/robowars.png", caption: "RoboWars arena" },
-  { src: "/images/workshop.png", caption: "Web Dev Bootcamp" },
-  { src: "/images/quiz.png", caption: "Tech Quiz finals" },
-  { src: "/images/stage.png", caption: "Opening night" },
-  { src: "/images/expo.png", caption: "Project expo" },
+  { src: "/images/hackathon.webp", caption: "HackNight 2025" },
+  { src: "/images/robowars.webp", caption: "RoboWars arena" },
+  { src: "/images/workshop.webp", caption: "Web Dev Bootcamp" },
+  { src: "/images/quiz.webp", caption: "Tech Quiz finals" },
+  { src: "/images/stage.webp", caption: "Opening night" },
+  { src: "/images/expo.webp", caption: "Project expo" },
 ];
 
 export default function Gallery() {
@@ -30,7 +30,7 @@ export default function Gallery() {
       <div className="gallery">
         {photos.map((p, i) => (
           <button key={p.src} className="thumb" onClick={() => setIndex(i)}>
-            <img src={p.src} />
+            <img src={p.src} alt={p.caption} width="800" height="533" loading="lazy" decoding="async" />
             <span>{p.caption}</span>
           </button>
         ))}

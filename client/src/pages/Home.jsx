@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <img className="hero-img" src="/images/hero.png" />
+        <img className="hero-img" src="/images/hero.webp" alt="TechFest 2026 banner" width="1200" height="800" fetchPriority="high" />
         <div className="hero-text">
           <p className="eyebrow">MBCET · 10–12 December 2026</p>
           <h1>TechFest 2026</h1>

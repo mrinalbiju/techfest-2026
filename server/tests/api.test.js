@@ -83,7 +83,8 @@ describe("Authentication", () => {
     const res = await request(app)
       .post("/api/auth/login")
       .send({ email: { $regex: ".*" }, password: "Admin12345" });
-    expect(res.status).toBe(401);
+    // mongo-sanitize strips the $regex operator, then the validator rejects the non-email value
+    expect(res.status).toBe(400);
     expect(res.headers["set-cookie"]).toBeUndefined();
   });
 });

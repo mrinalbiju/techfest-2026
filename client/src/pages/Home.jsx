@@ -34,6 +34,15 @@ export default function Home() {
         </div>
       </section>
 
+      <section>
+        <h2>Sponsors</h2>
+        <ul className="sponsors">
+          <li>Technopark Thiruvananthapuram</li>
+          <li>KSUM — Kerala Startup Mission</li>
+          <li>IEEE MBCET Student Branch</li>
+        </ul>
+      </section>
+
       <section className="announce">
         <h2>Announcements</h2>
         <ul>

@@ -15,13 +15,13 @@
       "HTTP/1.1 200 OK",
       "content-type: application/json; charset=utf-8",
       "",
-      "{\"success\":true,\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTczOTE2YjI0MjlmNWVhZmU1MTE4OSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MzUzODMyOCwiZXhwIjoxNzkzNjI0NzI4fQ.znU8ztpESuiJZG36TSRVK9HAPlbOb_BF47x2pqOVL04\",\"user\":{\"_id\":\"6ae73916b2429f5eafe51189\",\"email\":\"admin@techfest.local\",\"__v\":0,\"createdAt\":\"2026-11-01T13:05:26.793Z\",\"name\":\"TechFest Admin\",\"role\":\"admin\",\"updatedAt\":\"2026-11-01T13:05:26.793Z\"}}"
+      "{\"success\":true,\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTczOThiZDIwMTRlMWJhYWU3OGI3OCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc5MzUzODQ0NSwiZXhwIjoxNzkzNjI0ODQ1fQ.w6UCS0GbzoNTaSNnRpAVubbppUrq70bpNZG3XmhGRQ0\",\"user\":{\"_id\":\"6ae7398bd2014e1baae78b78\",\"email\":\"admin@techfest.local\",\"__v\":0,\"createdAt\":\"2026-11-01T13:07:23.308Z\",\"name\":\"TechFest Admin\",\"role\":\"admin\",\"updatedAt\":\"2026-11-01T13:07:23.308Z\"}}"
     ]
   },
   "loginSetCookie": "(none)",
   "loginBodyHasToken": true,
   "readable": {
-    "localStorageToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTczOTE4MjAxNDkyMjg3NThkOThlOCIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzkzNTM4MzI5LCJleHAiOjE3OTM2MjQ3Mjl9.7DV7muz5g-3MzgsmajpoNxYr5VZ1LTwrpLzDolXjOkg",
+    "localStorageToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTczOThkMmZjYTFmNTQ4ODEwZjFjYiIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzkzNTM4NDQ2LCJleHAiOjE3OTM2MjQ4NDZ9.XvMd6S8Y6g5rK8iItx0dhk2LQtv1p3qfqe7sL4MhLOY",
     "documentCookie": ""
   },
   "alertFired": null,

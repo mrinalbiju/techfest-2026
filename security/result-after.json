@@ -21,12 +21,12 @@
       "{\"success\":false,\"message\":\"Valid email required\",\"errors\":[{\"type\":\"field\",\"value\":{},\"msg\":\"Valid email required\",\"path\":\"email\",\"location\":\"body\"},{\"type\":\"field\",\"value\":\"[object Object]\",\"msg\":\"Valid email required\",\"path\":\"email\",\"location\":\"body\"}]}"
     ]
   },
-  "loginSetCookie": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTczOTIzYjkxODM0OWQxZTUwMTdmNSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzkzNTM4MzM5LCJleHAiOjE3OTM2MjQ3Mzl9.Ty2mm8N_piXQBOsFgJicXbt0EmHxt6gGubr7UWNyinM; Max-Age=86400; Path=/; Expires=Mon, 02 Nov 2026 13:05:39 GMT; HttpOnly; SameSite=Strict",
+  "loginSetCookie": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTczOTk5MTMyMjMyMjY4MzNmNWNjNSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzkzNTM4NDU4LCJleHAiOjE3OTM2MjQ4NTh9.N14pS08VriyhmB4sdQ5ci6LkBTZTLkVyDCy21y33VoU; Max-Age=86400; Path=/; Expires=Mon, 02 Nov 2026 13:07:38 GMT; HttpOnly; SameSite=Strict",
   "loginBodyHasToken": false,
   "readable": {
     "localStorageToken": null,
     "documentCookie": ""
   },
   "alertFired": null,
-  "xssBannerShown": 1
+  "xssBannerShown": 0
 }

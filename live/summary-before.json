@@ -1,0 +1,77 @@
+{
+  "site": "https://techfest-2026-sooty.vercel.app",
+  "api": "https://techfest-2026-api-ep0i.onrender.com",
+  "label": "before",
+  "checkedAt": "2026-11-01T13:26:15.698Z",
+  "lighthouse_mobile": {
+    "performance": 69,
+    "accessibility": 83,
+    "best-practices": 96,
+    "seo": 75,
+    "agentic-browsing": 50
+  },
+  "lighthouse_mobile_metrics": {
+    "FCP": "2.1 s",
+    "LCP": "18.6 s",
+    "TBT": "150 ms",
+    "CLS": "0",
+    "SpeedIndex": "4.4 s",
+    "totalBytes": "Total size was 3,317 KiB"
+  },
+  "lighthouse_mobile_failed": [
+    "First Contentful Paint (2.1 s)",
+    "Largest Contentful Paint (18.6 s)",
+    "Speed Index (4.4 s)",
+    "Max Potential First Input Delay (170 ms)",
+    "Browser errors were logged to the console",
+    "Time to Interactive (18.6 s)",
+    "Background and foreground colors do not have a sufficient contrast ratio.",
+    "`<html>` element does not have a `[lang]` attribute",
+    "Image elements do not have `[alt]` attributes",
+    "Avoid enormous network payloads (Total size was 3,317 KiB)",
+    "Reduce unused JavaScript (Est savings of 56 KiB)",
+    "Document does not have a meta description",
+    "robots.txt is not valid (15 errors found)",
+    "llms.txt does not follow recommendations",
+    "ARD manifest is invalid",
+    "Improve image delivery (Est savings of 3,116 KiB)",
+    "LCP breakdown",
+    "LCP request discovery",
+    "Network dependency tree",
+    "Render-blocking requests (Est savings of 350 ms)"
+  ],
+  "lighthouse_desktop": {
+    "performance": 82,
+    "accessibility": 83,
+    "best-practices": 96,
+    "seo": 75,
+    "agentic-browsing": 50
+  },
+  "lighthouse_desktop_metrics": {
+    "FCP": "0.6 s",
+    "LCP": "3.2 s",
+    "TBT": "0 ms",
+    "CLS": "0.001",
+    "SpeedIndex": "0.6 s",
+    "totalBytes": "Total size was 3,317 KiB"
+  },
+  "lighthouse_desktop_failed": [
+    "Largest Contentful Paint (3.2 s)",
+    "Browser errors were logged to the console",
+    "Time to Interactive (3.2 s)",
+    "Background and foreground colors do not have a sufficient contrast ratio.",
+    "`<html>` element does not have a `[lang]` attribute",
+    "Image elements do not have `[alt]` attributes",
+    "Elements with visible text labels do not have matching accessible names.",
+    "Avoid enormous network payloads (Total size was 3,317 KiB)",
+    "Reduce unused JavaScript (Est savings of 56 KiB)",
+    "Document does not have a meta description",
+    "robots.txt is not valid (15 errors found)",
+    "llms.txt does not follow recommendations",
+    "ARD manifest is invalid",
+    "Improve image delivery (Est savings of 3,103 KiB)",
+    "LCP request discovery",
+    "Network dependency tree",
+    "Render-blocking requests (Est savings of 290 ms)"
+  ]
+}

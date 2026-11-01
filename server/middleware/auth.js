@@ -1,10 +1,16 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-// Allows the request only if a valid JWT is sent in the Authorization header
-async function protect(req, res, next) {
+// Reads the JWT from the httpOnly cookie (browser) or the Authorization header (Postman)
+function getToken(req) {
+  if (req.cookies?.token) return req.cookies.token;
   const header = req.headers.authorization || "";
-  const token = header.startsWith("Bearer ") ? header.slice(7) : null;
+  return header.startsWith("Bearer ") ? header.slice(7) : null;
+}
+
+// Allows the request only if a valid JWT is present
+async function protect(req, res, next) {
+  const token = getToken(req);
   if (!token) return res.status(401).json({ success: false, message: "Not logged in" });
 
   try {

@@ -2,11 +2,12 @@ const express = require("express");
 const Event = require("../models/Event");
 const Registration = require("../models/Registration");
 const { protect } = require("../middleware/auth");
+const { validate, rules } = require("../middleware/validate");
 
 const router = express.Router();
 
 // POST /api/registrations — logged-in user registers for an event
-router.post("/", protect, async (req, res, next) => {
+router.post("/", protect, rules.registration, validate, async (req, res, next) => {
   try {
     const eventId = String(req.body.eventId || "");
     const event = await Event.findById(eventId);

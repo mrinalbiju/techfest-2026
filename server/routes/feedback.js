@@ -1,5 +1,6 @@
 const express = require("express");
 const Feedback = require("../models/Feedback");
+const { validate, rules } = require("../middleware/validate");
 
 const router = express.Router();
 
@@ -13,8 +14,8 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// POST /api/feedback — anyone can leave feedback
-router.post("/", async (req, res, next) => {
+// POST /api/feedback — anyone can leave feedback (stored as plain text; React escapes it on display)
+router.post("/", rules.feedback, validate, async (req, res, next) => {
   try {
     const { name, message } = req.body;
     const item = await Feedback.create({ name, message });

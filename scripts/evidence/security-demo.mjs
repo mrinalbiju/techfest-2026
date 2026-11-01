@@ -80,7 +80,8 @@ log.readable = await page.evaluate(() => ({
   documentCookie: document.cookie,
 }));
 log.alertFired = alertText;
-log.xssBannerShown = await page.locator("text=XSS EXECUTED").count();
+// Count only a banner the payload injected into <body> — not the payload text shown safely in the list
+log.xssBannerShown = await page.evaluate(() => [...document.body.children].filter((e) => e.textContent.startsWith("XSS EXECUTED")).length);
 
 // ---------- 4. Where is the token? (cookie flags / storage) ----------
 {

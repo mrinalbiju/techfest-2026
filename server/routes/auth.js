@@ -60,9 +60,11 @@ router.post("/logout", (req, res) => {
   res.json({ success: true, message: "Logged out" });
 });
 
-// GET /api/auth/me — current user (used by React on page load)
-router.get("/me", protect, (req, res) => {
-  res.json({ success: true, user: req.user });
+// GET /api/auth/me — current user, or null when not logged in (used by React on page load).
+// Returns 200 either way so a visitor who is not logged in does not get a console error.
+router.get("/me", (req, res, next) => {
+  if (!req.cookies?.token && !req.headers.authorization) return res.json({ success: true, user: null });
+  return protect(req, res, () => res.json({ success: true, user: req.user }));
 });
 
 module.exports = router;

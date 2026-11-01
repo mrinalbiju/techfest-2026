@@ -23,4 +23,4 @@ services:
       - key: MONGO_URI
         sync: false             # you paste the Atlas connection string during setup
       - key: CLIENT_URL         # the Vercel site (+ its preview deployments)
-        value: https://techfest-2026.vercel.app,https://techfest-2026-*-mrinalbiju1.vercel.app
+        value: https://techfest-2026-sooty.vercel.app,https://techfest-2026-mrinalbiju1.vercel.app,https://techfest-2026-*-mrinalbiju1.vercel.app

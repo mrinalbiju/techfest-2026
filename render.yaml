@@ -22,9 +22,5 @@ services:
         generateValue: true     # Render generates a long random secret
       - key: MONGO_URI
         sync: false             # you paste the Atlas connection string during setup
-      - key: CLIENT_URL
-        sync: false             # the Vercel URL, e.g. https://techfest-2026.vercel.app
-      - key: ADMIN_EMAIL
-        sync: false
-      - key: ADMIN_PASSWORD
-        sync: false
+      - key: CLIENT_URL         # the Vercel site (+ its preview deployments)
+        value: https://techfest-2026.vercel.app,https://techfest-2026-*-mrinalbiju1.vercel.app

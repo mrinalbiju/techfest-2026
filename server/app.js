@@ -18,14 +18,27 @@ app.set("trust proxy", Number(process.env.TRUST_PROXY || 1));
 // 1. Security headers: CSP, X-Content-Type-Options, X-Frame-Options, HSTS, ...
 app.use(helmet());
 
-// 2. CORS: only our own frontend may call the API with cookies
-const allowed = (process.env.CLIENT_URL || "http://localhost:5173").split(",").map((s) => s.trim());
-app.use(
-  cors({
-    origin: (origin, cb) => (!origin || allowed.includes(origin) ? cb(null, true) : cb(new Error("Not allowed by CORS"))),
-    credentials: true,
-  })
-);
+// 2. CORS: only our own frontend may call the API with cookies.
+//    CLIENT_URL is a comma-separated list; "*" matches one sub-domain label
+//    (e.g. https://techfest-2026-*-mrinalbiju1.vercel.app for preview deployments).
+const allowed = (process.env.CLIENT_URL || "http://localhost:5173")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean)
+  .map((s) => new RegExp("^" + s.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[a-z0-9-]+") + "$"));
+const corsMiddleware = cors({
+  origin: (origin, cb) => cb(null, !origin || allowed.some((re) => re.test(origin))),
+  credentials: true,
+});
+app.use(corsMiddleware);
+// Browsers that send a foreign Origin get no CORS headers; also refuse state-changing requests from them
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && req.method !== "GET" && !allowed.some((re) => re.test(origin))) {
+    return res.status(403).json({ success: false, message: "Origin not allowed" });
+  }
+  next();
+});
 
 // 3. Body parsing with a size limit, cookies, gzip compression
 app.use(express.json({ limit: "10kb" }));

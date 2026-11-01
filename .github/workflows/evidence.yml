@@ -1,0 +1,133 @@
+name: Record evidence
+
+# Produces screenshots/reports for the lab record and
+# commits them to the `record-evidence` branch.
+#   task=security : runs the Exp-4 baseline and the secured app side by side and attacks both
+#   task=live     : Lighthouse + page screenshots + cross-browser checks on the deployed site
+#
+# Can be started from the Actions tab (Run workflow) or by pushing a commit to the
+# `evidence-run` branch whose scripts/evidence/run.json holds the same settings.
+on:
+  push:
+    branches: [evidence-run]
+  workflow_dispatch:
+    inputs:
+      task:
+        type: choice
+        options: [security, live]
+        default: security
+      site_url:
+        description: Deployed frontend URL (task=live)
+        default: ""
+      api_url:
+        description: Deployed API URL (task=live)
+        default: ""
+      label:
+        description: before | after (task=live)
+        default: before
+      full:
+        description: Also capture pages, live workflow, cross-browser (task=live)
+        type: boolean
+        default: false
+      baseline_ref:
+        description: Commit of the unsecured Experiment-4 version
+        default: ab1d76b
+
+permissions:
+  contents: write
+
+jobs:
+  config:
+    runs-on: ubuntu-latest
+    outputs:
+      task: ${{ steps.c.outputs.task }}
+      site: ${{ steps.c.outputs.site }}
+      api: ${{ steps.c.outputs.api }}
+      label: ${{ steps.c.outputs.label }}
+      full: ${{ steps.c.outputs.full }}
+      baseline: ${{ steps.c.outputs.baseline }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: c
+        env:
+          EVENT: ${{ github.event_name }}
+          I_TASK: ${{ inputs.task }}
+          I_SITE: ${{ inputs.site_url }}
+          I_API: ${{ inputs.api_url }}
+          I_LABEL: ${{ inputs.label }}
+          I_FULL: ${{ inputs.full }}
+          I_BASE: ${{ inputs.baseline_ref }}
+        run: |
+          if [ "$EVENT" = "push" ]; then
+            f=scripts/evidence/run.json
+            echo "task=$(jq -r '.task // "security"' $f)" >> $GITHUB_OUTPUT
+            echo "site=$(jq -r '.site_url // ""' $f)" >> $GITHUB_OUTPUT
+            echo "api=$(jq -r '.api_url // ""' $f)" >> $GITHUB_OUTPUT
+            echo "label=$(jq -r '.label // "before"' $f)" >> $GITHUB_OUTPUT
+            echo "full=$(jq -r '.full // false' $f)" >> $GITHUB_OUTPUT
+            echo "baseline=$(jq -r '.baseline_ref // "ab1d76b"' $f)" >> $GITHUB_OUTPUT
+          else
+            { echo "task=$I_TASK"; echo "site=$I_SITE"; echo "api=$I_API"; echo "label=$I_LABEL"; echo "full=$I_FULL"; echo "baseline=$I_BASE"; } >> $GITHUB_OUTPUT
+          fi
+
+  security:
+    needs: config
+    if: needs.config.outputs.task == 'security'
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:7
+        ports: ["27017:27017"]
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Install Playwright
+        working-directory: scripts/evidence
+        run: npm install --no-audit --no-fund && npx playwright install --with-deps chromium
+      - name: BEFORE — Experiment 4 baseline (unsecured)
+        run: bash scripts/evidence/run-stage.sh before ${{ needs.config.outputs.baseline }}
+      - name: AFTER — secured version
+        run: bash scripts/evidence/run-stage.sh after ${{ github.sha }}
+      - name: Publish evidence
+        run: bash scripts/evidence/publish.sh "security demo (${{ github.sha }})"
+
+  live:
+    needs: config
+    if: needs.config.outputs.task == 'live'
+    runs-on: ubuntu-latest
+    env:
+      SITE: ${{ needs.config.outputs.site }}
+      API: ${{ needs.config.outputs.api }}
+      LABEL: ${{ needs.config.outputs.label }}
+      FULL: ${{ needs.config.outputs.full }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Wake the API (free Render instances sleep)
+        run: |
+          for i in $(seq 1 30); do
+            curl -sf "$API/api/health" && break || sleep 5
+          done
+          curl -sf "$SITE/api/events" > /dev/null
+      - name: Lighthouse (mobile + desktop)
+        run: |
+          npm install -g lighthouse --no-audit --no-fund
+          mkdir -p evidence/lighthouse
+          FLAGS="--chrome-flags=--headless=new --quiet --output=html --output=json"
+          lighthouse "$SITE/" $FLAGS --output-path="evidence/lighthouse/$LABEL-mobile"
+          lighthouse "$SITE/" $FLAGS --preset=desktop --output-path="evidence/lighthouse/$LABEL-desktop"
+      - name: Install Playwright
+        working-directory: scripts/evidence
+        run: |
+          npm install --no-audit --no-fund
+          if [ "$FULL" = "true" ]; then npx playwright install --with-deps chromium firefox webkit; else npx playwright install --with-deps chromium; fi
+      - name: Live checks and screenshots
+        run: node scripts/evidence/live-check.mjs
+      - name: Publish evidence
+        run: bash scripts/evidence/publish.sh "live checks ($LABEL)"

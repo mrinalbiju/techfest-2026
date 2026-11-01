@@ -1,0 +1,9 @@
+{
+  "name": "techfest-evidence",
+  "private": true,
+  "type": "module",
+  "description": "Security demo + live-site checks used for the lab record (run by .github/workflows/evidence.yml)",
+  "dependencies": {
+    "playwright": "^1.56.0"
+  }
+}

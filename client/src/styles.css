@@ -8,6 +8,7 @@
   --brand: #2b2f8f;
   --brand-ink: #ffffff;
   --accent: #ff9f1c;
+  --accent-ink: #9a4a00;
   --ok: #1d7a46;
   --err: #b42318;
   --radius: 14px;
@@ -22,6 +23,7 @@
   --brand: #8f95ff;
   --brand-ink: #0f1020;
   --accent: #ffb547;
+  --accent-ink: #ffb547;
   --ok: #4fd18b;
   --err: #ff8a80;
   --shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
@@ -120,7 +122,7 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 /* ---------- Hero ---------- */
 .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: center; padding: 36px 0 24px; }
 .hero-img { border-radius: 20px; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; order: 2; }
-.eyebrow { color: var(--accent); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.85rem; margin: 0; }
+.eyebrow { color: var(--accent-ink); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.85rem; margin: 0; }
 .hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); margin: 0.15em 0; }
 .lead { font-size: 1.1rem; color: var(--muted); max-width: 46ch; }
 .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }

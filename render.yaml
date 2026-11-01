@@ -1,0 +1,30 @@
+# Render Blueprint — creates the TechFest API web service from this repo.
+# Render dashboard → New → Blueprint → pick this repository.
+services:
+  - type: web
+    name: techfest-2026-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: server
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true            # redeploys on every push to main (CD)
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "2"              # Vercel's /api proxy + Render's load balancer
+      - key: JWT_SECRET
+        generateValue: true     # Render generates a long random secret
+      - key: MONGO_URI
+        sync: false             # you paste the Atlas connection string during setup
+      - key: CLIENT_URL
+        sync: false             # the Vercel URL, e.g. https://techfest-2026.vercel.app
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false

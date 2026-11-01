@@ -146,11 +146,11 @@ if (FULL) {
 
   // ---------- GitHub evidence ----------
   const gh = await chrome.newPage({ viewport: { width: 1280, height: 900 } });
-  for (const [path, name] of [["/actions", "gh-actions"], ["/commits/main", "gh-commits"], ["/branches/all", "gh-branches"], ["/network", "gh-network"]]) {
+  for (const [path, name, full] of [["/actions/workflows/ci.yml", "gh-actions", true], ["/commits/main", "gh-commits", false], ["/branches/all", "gh-branches", false]]) {
     try {
       await gh.goto(`https://github.com/${REPO}${path}`, { waitUntil: "networkidle", timeout: 45000 });
       await gh.waitForTimeout(1500);
-      await gh.screenshot({ path: `${OUT}/${name}.png` });
+      await gh.screenshot({ path: `${OUT}/${name}.png`, fullPage: full });
     } catch (e) {
       summary[`${name}_error`] = e.message;
     }

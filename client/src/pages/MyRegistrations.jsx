@@ -37,7 +37,7 @@ export default function MyRegistrations() {
               <tr key={r._id}>
                 <td>{r.event?.name || "(removed event)"}</td>
                 <td>{r.event?.category}</td>
-                <td>{r.event && new Date(r.event.date).toLocaleDateString("en-IN")}</td>
+                <td>{r.event && new Date(r.event.date).toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" })}</td>
                 <td>{r.event ? `₹${r.event.fee}` : "-"}</td>
               </tr>
             ))}

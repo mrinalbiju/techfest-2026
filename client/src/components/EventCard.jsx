@@ -1,7 +1,8 @@
 import { useCart } from "../context/CartContext.jsx";
 
+// TechFest is held in India, so times are always shown in IST whatever the visitor's time zone
 const fmt = (d) =>
-  new Date(d).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit" });
+  new Date(d).toLocaleString("en-IN", { day: "numeric", month: "short", hour: "numeric", minute: "2-digit", timeZone: "Asia/Kolkata" });
 
 // One event, received through props
 export default function EventCard({ event, onRegister, onDelete, isAdmin, busy }) {

@@ -3,20 +3,31 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { protect } = require("../middleware/auth");
+const { validate, rules } = require("../middleware/validate");
 
 const router = express.Router();
+const isProd = process.env.NODE_ENV === "production";
 
 function signToken(user) {
   return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1d" });
 }
 
-// POST /api/auth/register  — sign up (password is hashed with bcrypt)
-router.post("/register", async (req, res, next) => {
+// Cookie options:
+//  httpOnly — JavaScript (and therefore an XSS payload) cannot read the token
+//  secure   — sent only over HTTPS in production
+//  sameSite — "strict" means another site cannot make the browser send it (CSRF)
+const cookieOptions = {
+  httpOnly: true,
+  secure: isProd,
+  sameSite: "strict",
+  maxAge: 24 * 60 * 60 * 1000,
+  path: "/",
+};
+
+// POST /api/auth/register — sign up (password is hashed with bcrypt)
+router.post("/register", rules.register, validate, async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({ success: false, message: "Name, email and password are required" });
-    }
     const exists = await User.findOne({ email });
     if (exists) return res.status(400).json({ success: false, message: "Email already registered" });
 
@@ -28,22 +39,28 @@ router.post("/register", async (req, res, next) => {
   }
 });
 
-// POST /api/auth/login  — returns a JWT
-router.post("/login", async (req, res, next) => {
+// POST /api/auth/login — sets the JWT in an httpOnly cookie
+router.post("/login", rules.login, validate, async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    // The request body is passed straight into the query
-    const user = await User.findOne({ email: email });
-    if (!user || !(await bcrypt.compare(String(password), user.password))) {
+    const { email, password } = req.body; // both are guaranteed strings by the validators
+    const user = await User.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({ success: false, message: "Invalid email or password" });
     }
-    res.json({ success: true, token: signToken(user), user });
+    res.cookie("token", signToken(user), cookieOptions);
+    res.json({ success: true, user });
   } catch (err) {
     next(err);
   }
 });
 
-// GET /api/auth/me — current user
+// POST /api/auth/logout — clears the cookie
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", { ...cookieOptions, maxAge: undefined });
+  res.json({ success: true, message: "Logged out" });
+});
+
+// GET /api/auth/me — current user (used by React on page load)
 router.get("/me", protect, (req, res) => {
   res.json({ success: true, user: req.user });
 });

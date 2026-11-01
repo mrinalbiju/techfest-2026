@@ -49,8 +49,8 @@ export default function Contact() {
           {items.map((f) => (
             <li key={f._id} className="card">
               <b>{f.name}</b>
-              {/* Rich-text feedback: the message is inserted as HTML */}
-              <p dangerouslySetInnerHTML={{ __html: f.message }} />
+              {/* XSS fix: render user text as plain text — React escapes < > & " */}
+              <p>{f.message}</p>
             </li>
           ))}
         </ul>

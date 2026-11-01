@@ -4,7 +4,7 @@ import api, { errorMessage } from "../api";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function MyRegistrations() {
-  const { user } = useAuth();
+  const { user, ready } = useAuth();
   const [regs, setRegs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -18,6 +18,7 @@ export default function MyRegistrations() {
       .finally(() => setLoading(false));
   }, [user]);
 
+  if (!ready) return <p className="loading">Checking login…</p>;
   if (!user) return <p className="narrow">Please <Link to="/login">log in</Link> to see your registrations.</p>;
 
   return (

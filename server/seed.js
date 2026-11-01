@@ -1,6 +1,6 @@
 // Seeds the TechFest events and (optionally) an admin account.
 // Usage: npm run seed   (reads MONGO_URI, and ADMIN_EMAIL / ADMIN_PASSWORD if set)
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const Event = require("./models/Event");

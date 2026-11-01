@@ -1,1 +1,1 @@
-{ "task": "security", "baseline_ref": "ab1d76b" }
+{ "task": "live", "site_url": "https://techfest-2026-sooty.vercel.app", "api_url": "https://techfest-2026-api-ep0i.onrender.com", "label": "before", "full": false }

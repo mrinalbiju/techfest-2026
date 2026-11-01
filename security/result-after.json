@@ -1,0 +1,32 @@
+{
+  "headers": [
+    "$ curl -i http://localhost:5000/api/health",
+    "HTTP/1.1 200 OK",
+    "content-type: application/json; charset=utf-8",
+    "content-security-policy: default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests",
+    "strict-transport-security: max-age=31536000; includeSubDomains",
+    "x-content-type-options: nosniff",
+    "x-frame-options: SAMEORIGIN",
+    "",
+    "{\"success\":true,\"status\":\"ok\"}"
+  ],
+  "injection": {
+    "status": 400,
+    "lines": [
+      "# Attacker does not know any email address. $regex \".*\" matches the FIRST user (the admin)",
+      "$ curl -i -X POST http://localhost:5000/api/auth/login -H \"Content-Type: application/json\" -d '{\"email\":{\"$regex\":\".*\"},\"password\":\"Admin@123\"}'",
+      "HTTP/1.1 400 Bad Request",
+      "content-type: application/json; charset=utf-8",
+      "",
+      "{\"success\":false,\"message\":\"Valid email required\",\"errors\":[{\"type\":\"field\",\"value\":{},\"msg\":\"Valid email required\",\"path\":\"email\",\"location\":\"body\"},{\"type\":\"field\",\"value\":\"[object Object]\",\"msg\":\"Valid email required\",\"path\":\"email\",\"location\":\"body\"}]}"
+    ]
+  },
+  "loginSetCookie": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhZTczOTIzYjkxODM0OWQxZTUwMTdmNSIsInJvbGUiOiJzdHVkZW50IiwiaWF0IjoxNzkzNTM4MzM5LCJleHAiOjE3OTM2MjQ3Mzl9.Ty2mm8N_piXQBOsFgJicXbt0EmHxt6gGubr7UWNyinM; Max-Age=86400; Path=/; Expires=Mon, 02 Nov 2026 13:05:39 GMT; HttpOnly; SameSite=Strict",
+  "loginBodyHasToken": false,
+  "readable": {
+    "localStorageToken": null,
+    "documentCookie": ""
+  },
+  "alertFired": null,
+  "xssBannerShown": 1
+}

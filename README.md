@@ -1,6 +1,6 @@
 # TechFest 2026 Portal
 
-MERN stack portal for TechFest 2026 — Web Technology Laboratory (23CSB40B), MBCET.
+MERN stack portal for TechFest 2026 — Web Technology Laboratory.
 
 | Part | Folder | Tech |
 |------|--------|------|
